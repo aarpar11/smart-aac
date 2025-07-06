@@ -18,6 +18,21 @@ export default {
 			}
 		},
 		extend: {
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-secondary': 'var(--gradient-secondary)', 
+				'gradient-background': 'var(--gradient-background)',
+				'gradient-calm': 'var(--gradient-calm)',
+			},
+			boxShadow: {
+				'soft': 'var(--shadow-soft)',
+				'gentle': 'var(--shadow-gentle)',
+				'peaceful': 'var(--shadow-peaceful)',
+			},
+			transitionTimingFunction: {
+				'gentle': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+				'smooth': 'cubic-bezier(0.4, 0, 0.2, 1)',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
