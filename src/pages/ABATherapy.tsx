@@ -1,10 +1,55 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CheckCircle, XCircle, MapPin, DollarSign, Clock, Users } from "lucide-react";
+import { useGeolocation } from "@/hooks/useGeolocation";
+import { useToast } from "@/hooks/use-toast";
 
 const ABATherapy = () => {
+  const [showProviders, setShowProviders] = useState(false);
+  const { latitude, longitude, error, loading, getCurrentPosition } = useGeolocation();
+  const { toast } = useToast();
+
+  const handleFindProviders = () => {
+    getCurrentPosition();
+    if (latitude && longitude) {
+      setShowProviders(true);
+      toast({
+        title: "Searching for providers",
+        description: `Finding ABA therapists near your location (${latitude.toFixed(2)}, ${longitude.toFixed(2)})`,
+      });
+    }
+  };
+
+  const mockProviders = [
+    {
+      name: "Autism Care Center",
+      address: "123 Main St, Your City, State 12345",
+      phone: "(555) 123-4567",
+      distance: "2.3 miles",
+      rating: 4.8,
+      services: ["Individual Therapy", "Group Sessions", "Parent Training"]
+    },
+    {
+      name: "Behavioral Health Institute",
+      address: "456 Oak Ave, Your City, State 12345", 
+      phone: "(555) 987-6543",
+      distance: "3.7 miles",
+      rating: 4.6,
+      services: ["Early Intervention", "Social Skills", "Behavior Support"]
+    },
+    {
+      name: "Family Autism Solutions",
+      address: "789 Pine Rd, Your City, State 12345",
+      phone: "(555) 456-7890", 
+      distance: "5.1 miles",
+      rating: 4.9,
+      services: ["Home-Based Therapy", "School Support", "Respite Care"]
+    }
+  ];
   const dosAndDonts = {
     dos: [
       "Start with small, achievable goals",
@@ -285,9 +330,56 @@ const ABATherapy = () => {
                       <li>Ask about parent training opportunities</li>
                     </ol>
                   </div>
-                  <Button className="w-full bg-gradient-primary hover:opacity-90 transition-gentle shadow-gentle">
-                    Find Local Providers
+                  <Button 
+                    onClick={handleFindProviders}
+                    disabled={loading}
+                    className="w-full bg-gradient-primary hover:opacity-90 transition-gentle shadow-gentle"
+                  >
+                    <MapPin className="w-4 h-4 mr-2" />
+                    {loading ? "Finding Location..." : "Find Local Providers"}
                   </Button>
+                  
+                  {error && (
+                    <div className="text-center text-red-500 mt-4 text-sm">
+                      {error}
+                    </div>
+                  )}
+
+                  {showProviders && latitude && longitude && (
+                    <Card className="mt-6 bg-card/50 backdrop-blur-sm border-border/50">
+                      <CardHeader>
+                        <CardTitle className="text-lg">ABA Therapy Providers Near You</CardTitle>
+                        <CardDescription>
+                          Found {mockProviders.length} providers within 10 miles of your location
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {mockProviders.map((provider, index) => (
+                          <Card key={index} className="bg-gradient-calm/30">
+                            <CardContent className="p-4">
+                              <div className="flex justify-between items-start mb-2">
+                                <h3 className="font-semibold text-base">{provider.name}</h3>
+                                <Badge variant="secondary">★ {provider.rating}</Badge>
+                              </div>
+                              <p className="text-muted-foreground text-sm mb-2">{provider.address}</p>
+                              <p className="text-sm font-medium mb-2">{provider.phone}</p>
+                              <p className="text-sm text-primary mb-3">{provider.distance} away</p>
+                              <div className="flex flex-wrap gap-1 mb-3">
+                                {provider.services.map((service, serviceIndex) => (
+                                  <Badge key={serviceIndex} variant="outline" className="text-xs">
+                                    {service}
+                                  </Badge>
+                                ))}
+                              </div>
+                              <Button variant="outline" size="sm" className="w-full">
+                                Contact Provider
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </CardContent>
+                    </Card>
+                  )}
                 </CardContent>
               </Card>
             </div>

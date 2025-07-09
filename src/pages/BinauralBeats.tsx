@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
+import { BinauralBeats } from "@/lib/binauralBeats";
 
-const BinauralBeats = () => {
+const BinauralBeatsPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [frequency, setFrequency] = useState([40]);
   const [volume, setVolume] = useState([50]);
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
+  const binauralBeatsRef = useRef<BinauralBeats | null>(null);
+
+  useEffect(() => {
+    binauralBeatsRef.current = new BinauralBeats();
+    
+    return () => {
+      if (binauralBeatsRef.current) {
+        binauralBeatsRef.current.stop();
+      }
+    };
+  }, []);
 
   const presets = [
     { name: "Deep Focus", frequency: 40, description: "Gamma waves for concentration", color: "bg-gradient-primary" },
@@ -20,6 +32,43 @@ const BinauralBeats = () => {
   const handlePresetClick = (preset: typeof presets[0]) => {
     setFrequency([preset.frequency]);
     setSelectedPreset(preset.name);
+    
+    if (isPlaying && binauralBeatsRef.current) {
+      const [leftFreq, rightFreq] = BinauralBeats.getFrequenciesForBeat(preset.frequency);
+      binauralBeatsRef.current.updateFrequencies(leftFreq, rightFreq);
+    }
+  };
+
+  const handlePlayToggle = async () => {
+    if (!binauralBeatsRef.current) return;
+
+    if (isPlaying) {
+      binauralBeatsRef.current.stop();
+      setIsPlaying(false);
+    } else {
+      try {
+        const [leftFreq, rightFreq] = BinauralBeats.getFrequenciesForBeat(frequency[0]);
+        await binauralBeatsRef.current.createBinauralBeat(leftFreq, rightFreq, volume[0] / 100);
+        setIsPlaying(true);
+      } catch (error) {
+        console.error('Error playing binaural beats:', error);
+      }
+    }
+  };
+
+  const handleVolumeChange = (newVolume: number[]) => {
+    setVolume(newVolume);
+    if (binauralBeatsRef.current) {
+      binauralBeatsRef.current.setVolume(newVolume[0]);
+    }
+  };
+
+  const handleFrequencyChange = (newFrequency: number[]) => {
+    setFrequency(newFrequency);
+    if (isPlaying && binauralBeatsRef.current) {
+      const [leftFreq, rightFreq] = BinauralBeats.getFrequenciesForBeat(newFrequency[0]);
+      binauralBeatsRef.current.updateFrequencies(leftFreq, rightFreq);
+    }
   };
 
   const getFrequencyInfo = (freq: number) => {
@@ -63,7 +112,7 @@ const BinauralBeats = () => {
               </div>
               <Slider
                 value={frequency}
-                onValueChange={setFrequency}
+                onValueChange={handleFrequencyChange}
                 max={100}
                 min={1}
                 step={1}
@@ -82,7 +131,7 @@ const BinauralBeats = () => {
               </div>
               <Slider
                 value={volume}
-                onValueChange={setVolume}
+                onValueChange={handleVolumeChange}
                 max={100}
                 min={0}
                 step={5}
@@ -94,7 +143,7 @@ const BinauralBeats = () => {
             <div className="flex justify-center space-x-4">
               <Button
                 size="lg"
-                onClick={() => setIsPlaying(!isPlaying)}
+                onClick={handlePlayToggle}
                 className="bg-gradient-primary hover:opacity-90 transition-gentle shadow-gentle"
               >
                 {isPlaying ? "Pause" : "Play"} Binaural Beats
@@ -158,4 +207,4 @@ const BinauralBeats = () => {
   );
 };
 
-export default BinauralBeats;
+export default BinauralBeatsPage;

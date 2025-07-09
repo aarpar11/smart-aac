@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
@@ -9,6 +9,15 @@ const CalmingRoom = () => {
   const [soundVolume, setSoundVolume] = useState([60]);
   const [brightness, setBrightness] = useState([70]);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Apply brightness effect to the entire screen
+  useEffect(() => {
+    document.documentElement.style.filter = `brightness(${brightness[0]}%)`;
+    
+    return () => {
+      document.documentElement.style.filter = '';
+    };
+  }, [brightness]);
 
   const environments = [
     {
