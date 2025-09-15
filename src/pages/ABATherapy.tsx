@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, MapPin, DollarSign, Clock, Users } from "lucide-react";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { useToast } from "@/hooks/use-toast";
+import { ABAChatbot } from "@/components/ABAChatbot";
 
 const ABATherapy = () => {
   const [showProviders, setShowProviders] = useState(false);
@@ -152,8 +153,9 @@ const ABATherapy = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 bg-card/50 backdrop-blur-sm">
+          <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6 bg-card/50 backdrop-blur-sm">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="chatbot">Learning Buddy</TabsTrigger>
             <TabsTrigger value="dos-donts">Do's & Don'ts</TabsTrigger>
             <TabsTrigger value="faqs">FAQs</TabsTrigger>
             <TabsTrigger value="financial">Financial Aid</TabsTrigger>
@@ -205,6 +207,68 @@ const ABATherapy = () => {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="chatbot" className="space-y-6">
+            <div className="grid lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <ABAChatbot />
+              </div>
+              <div className="space-y-4">
+                <Card className="bg-card/50 backdrop-blur-sm border-border/50 shadow-gentle">
+                  <CardHeader>
+                    <CardTitle className="text-lg text-primary">About Your Learning Buddy</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-sm text-muted-foreground">
+                    <p>
+                      Your ABA Learning Buddy is here to help children with autism learn and grow using 
+                      Applied Behavior Analysis principles in a fun, friendly way.
+                    </p>
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-foreground">What can I help with?</h4>
+                      <ul className="space-y-1 list-disc list-inside">
+                        <li>Understanding positive reinforcement</li>
+                        <li>Building daily routines</li>
+                        <li>Communication skills</li>
+                        <li>Self-regulation techniques</li>
+                        <li>Social skills practice</li>
+                        <li>Problem-solving strategies</li>
+                      </ul>
+                    </div>
+                    <p className="text-xs text-muted-foreground/80 mt-4">
+                      Note: This chatbot provides educational information based on ABA principles. 
+                      Always consult with qualified professionals for personalized therapy plans.
+                    </p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="bg-card/50 backdrop-blur-sm border-border/50 shadow-gentle">
+                  <CardHeader>
+                    <CardTitle className="text-lg text-secondary">Tips for Parents</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-sm text-muted-foreground">
+                    <ul className="space-y-2">
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary font-bold">•</span>
+                        <span>Supervise your child's interactions with the chatbot</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary font-bold">•</span>
+                        <span>Use the chatbot's suggestions as conversation starters</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary font-bold">•</span>
+                        <span>Encourage your child to ask questions about their interests</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-primary font-bold">•</span>
+                        <span>Practice the techniques mentioned in real-life situations</span>
+                      </li>
+                    </ul>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
           </TabsContent>
 
