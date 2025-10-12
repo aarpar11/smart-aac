@@ -10,6 +10,7 @@ import Blog from "./pages/Blog";
 import Meditation from "./pages/Meditation";
 import CalmingRoom from "./pages/CalmingRoom";
 import ABATherapy from "./pages/ABATherapy";
+import SmartAAC from "./pages/SmartAAC";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/meditation" element={<Meditation />} />
             <Route path="/calming-room" element={<CalmingRoom />} />
             <Route path="/aba-therapy" element={<ABATherapy />} />
+            <Route path="/smart-aac" element={<SmartAAC />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

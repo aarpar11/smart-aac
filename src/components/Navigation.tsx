@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Headphones, Book, Brain, Video, Users } from "lucide-react";
+import { Headphones, Book, Brain, Video, Users, MessageSquare } from "lucide-react";
 
 const Navigation = () => {
   const navItems = [
@@ -9,6 +9,7 @@ const Navigation = () => {
     { name: "Meditation", path: "/meditation", icon: Brain },
     { name: "Calming Room", path: "/calming-room", icon: Video },
     { name: "ABA Therapy", path: "/aba-therapy", icon: Users },
+    { name: "Smart AAC", path: "/smart-aac", icon: MessageSquare },
   ];
 
   return (
