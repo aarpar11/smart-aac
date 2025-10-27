@@ -13,18 +13,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="min-h-screen bg-gradient-background">
-          <Navigation />
+        <div className="min-h-screen bg-background">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/binaural-beats" element={<BinauralBeats />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/meditation" element={<Meditation />} />
-            <Route path="/calming-room" element={<CalmingRoom />} />
-            <Route path="/aba-therapy" element={<ABATherapy />} />
-            <Route path="/smart-aac" element={<SmartAAC />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<SmartAAC />} />
           </Routes>
         </div>
       </BrowserRouter>
