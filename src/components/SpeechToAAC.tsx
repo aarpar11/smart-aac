@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { useSpeechRecognition } from '@/hooks/useSpeechRecognition';
-import { supabase } from '@/integrations/supabase/client';
+
 import { useToast } from '@/hooks/use-toast';
 
 interface SpeechToAACProps {
@@ -33,11 +33,25 @@ export const SpeechToAAC = ({ onSuggestionsReceived }: SpeechToAACProps) => {
     if (transcript) {
       setIsProcessing(true);
       try {
-        const { data, error } = await supabase.functions.invoke('aac-suggestions', {
-          body: { spokenText: transcript }
+        const resp = await fetch('https://aatddzovqjfyzkfnrbkc.functions.supabase.co/functions/v1/aac-suggestions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ spokenText: transcript })
         });
 
-        if (error) throw error;
+        if (!resp.ok) {
+          if (resp.status === 429) {
+            toast({ title: 'Rate limited', description: 'Please try again in a moment.', variant: 'destructive' });
+            return;
+          }
+          if (resp.status === 402) {
+            toast({ title: 'Out of credits', description: 'Please add credits to continue.', variant: 'destructive' });
+            return;
+          }
+          throw new Error(`Function error: ${resp.status}`);
+        }
+
+        const data = await resp.json();
 
         if (data?.suggestedWords) {
           onSuggestionsReceived(data.suggestedWords);
