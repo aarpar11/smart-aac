@@ -1,0 +1,4 @@
+project_id = "aatddzovqjfyzkfnrbkc"
+
+[functions.aac-suggestions]
+verify_jwt = false

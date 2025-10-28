@@ -5,22 +5,55 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Camera, CameraOff, Volume2, Sparkles } from 'lucide-react';
 import { useEmotionDetection, DetectedEmotion } from '@/hooks/useEmotionDetection';
-import { aacWords, sortWordsByEmotion, EmotionType } from '@/data/aacWords';
+import { aacWords, sortWordsByEmotion, EmotionType, AACWord } from '@/data/aacWords';
+import { SpeechToAAC } from './SpeechToAAC';
 
 export const SmartAAC = () => {
   const [isVideoActive, setIsVideoActive] = useState(false);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [sortedWords, setSortedWords] = useState(aacWords);
+  const [aiSuggestedWords, setAiSuggestedWords] = useState<string[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const { isLoading, emotion, error, startDetection, stopDetection } = useEmotionDetection();
 
   useEffect(() => {
+    // Combine emotion-based sorting with AI suggestions
+    let sorted = aacWords;
+    
     if (emotion) {
-      const sorted = sortWordsByEmotion(aacWords, emotion.emotion as EmotionType);
-      setSortedWords(sorted);
+      sorted = sortWordsByEmotion(aacWords, emotion.emotion as EmotionType);
     }
-  }, [emotion]);
+
+    // If we have AI suggestions, prioritize words that match or contain suggested words
+    if (aiSuggestedWords.length > 0) {
+      const prioritized: AACWord[] = [];
+      const remaining: AACWord[] = [];
+
+      sorted.forEach(word => {
+        const wordLower = word.word.toLowerCase();
+        const isMatch = aiSuggestedWords.some(suggestion => 
+          suggestion.toLowerCase() === wordLower || 
+          wordLower.includes(suggestion.toLowerCase()) ||
+          suggestion.toLowerCase().includes(wordLower)
+        );
+        
+        if (isMatch) {
+          prioritized.push(word);
+        } else {
+          remaining.push(word);
+        }
+      });
+
+      sorted = [...prioritized, ...remaining];
+    }
+
+    setSortedWords(sorted);
+  }, [emotion, aiSuggestedWords]);
+
+  const handleAISuggestions = (words: string[]) => {
+    setAiSuggestedWords(words);
+  };
 
   const handleToggleVideo = async () => {
     if (!isVideoActive && videoRef.current) {
@@ -73,6 +106,9 @@ export const SmartAAC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Speech to AAC Helper */}
+      <SpeechToAAC onSuggestionsReceived={handleAISuggestions} />
+
       <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -80,7 +116,7 @@ export const SmartAAC = () => {
             Smart AAC - Emotion-Aware Communication
           </CardTitle>
           <p className="text-sm text-muted-foreground">
-            Words are automatically sorted based on your detected emotion
+            Words sorted by emotion detection {aiSuggestedWords.length > 0 && '& AI suggestions'}
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -180,11 +216,18 @@ export const SmartAAC = () => {
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-semibold">Communication Words</h3>
-              {emotion && (
-                <p className="text-sm text-muted-foreground">
-                  Sorted by relevance to: <span className="font-semibold capitalize">{emotion.emotion}</span>
-                </p>
-              )}
+              <div className="text-sm text-muted-foreground text-right">
+                {aiSuggestedWords.length > 0 && (
+                  <p className="text-primary font-semibold">
+                    AI-suggested words shown first
+                  </p>
+                )}
+                {emotion && (
+                  <p>
+                    Sorted by: <span className="font-semibold capitalize">{emotion.emotion}</span>
+                  </p>
+                )}
+              </div>
             </div>
             <ScrollArea className="h-[400px] pr-4">
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
