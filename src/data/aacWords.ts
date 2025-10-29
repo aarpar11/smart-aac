@@ -102,6 +102,116 @@ export const aacWords: AACWord[] = [
   { id: "62", word: "home", category: "places", emotionRelevancy: { happy: 40, sad: 20, angry: 5, fearful: 10, disgusted: 0, surprised: 5, neutral: 35 } },
   { id: "63", word: "outside", category: "places", emotionRelevancy: { happy: 40, sad: 10, angry: 5, fearful: 10, disgusted: 5, surprised: 15, neutral: 30 } },
   { id: "64", word: "car", category: "objects", emotionRelevancy: { happy: 30, sad: 5, angry: 10, fearful: 15, disgusted: 0, surprised: 10, neutral: 30 } },
+  
+  // Pronouns - Subject
+  { id: "65", word: "I", category: "pronouns", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 60 } },
+  { id: "66", word: "you", category: "pronouns", emotionRelevancy: { happy: 20, sad: 15, angry: 20, fearful: 15, disgusted: 10, surprised: 15, neutral: 60 } },
+  { id: "67", word: "he", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "68", word: "she", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "69", word: "it", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 10, fearful: 10, disgusted: 15, surprised: 10, neutral: 60 } },
+  { id: "70", word: "we", category: "pronouns", emotionRelevancy: { happy: 25, sad: 10, angry: 10, fearful: 10, disgusted: 5, surprised: 15, neutral: 60 } },
+  { id: "71", word: "they", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  
+  // Pronouns - Object
+  { id: "72", word: "me", category: "pronouns", emotionRelevancy: { happy: 15, sad: 20, angry: 20, fearful: 20, disgusted: 15, surprised: 15, neutral: 60 } },
+  { id: "73", word: "him", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 15, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "74", word: "her", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 15, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "75", word: "us", category: "pronouns", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 60 } },
+  { id: "76", word: "them", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 15, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  
+  // Pronouns - Possessive
+  { id: "77", word: "my", category: "pronouns", emotionRelevancy: { happy: 15, sad: 15, angry: 20, fearful: 15, disgusted: 15, surprised: 15, neutral: 60 } },
+  { id: "78", word: "your", category: "pronouns", emotionRelevancy: { happy: 15, sad: 10, angry: 20, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "79", word: "his", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 15, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "80", word: "her", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 15, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "81", word: "our", category: "pronouns", emotionRelevancy: { happy: 20, sad: 10, angry: 10, fearful: 10, disgusted: 5, surprised: 15, neutral: 60 } },
+  { id: "82", word: "their", category: "pronouns", emotionRelevancy: { happy: 10, sad: 10, angry: 15, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  
+  // Demonstratives
+  { id: "83", word: "this", category: "pronouns", emotionRelevancy: { happy: 15, sad: 10, angry: 15, fearful: 10, disgusted: 20, surprised: 20, neutral: 60 } },
+  { id: "84", word: "that", category: "pronouns", emotionRelevancy: { happy: 15, sad: 10, angry: 15, fearful: 10, disgusted: 20, surprised: 20, neutral: 60 } },
+  { id: "85", word: "these", category: "pronouns", emotionRelevancy: { happy: 15, sad: 10, angry: 15, fearful: 10, disgusted: 20, surprised: 20, neutral: 60 } },
+  { id: "86", word: "those", category: "pronouns", emotionRelevancy: { happy: 15, sad: 10, angry: 15, fearful: 10, disgusted: 20, surprised: 20, neutral: 60 } },
+  
+  // Articles
+  { id: "87", word: "a", category: "articles", emotionRelevancy: { happy: 10, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 65 } },
+  { id: "88", word: "an", category: "articles", emotionRelevancy: { happy: 10, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 65 } },
+  { id: "89", word: "the", category: "articles", emotionRelevancy: { happy: 10, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 65 } },
+  
+  // Conjunctions
+  { id: "90", word: "and", category: "conjunctions", emotionRelevancy: { happy: 20, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "91", word: "or", category: "conjunctions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 20, disgusted: 15, surprised: 15, neutral: 65 } },
+  { id: "92", word: "but", category: "conjunctions", emotionRelevancy: { happy: 10, sad: 20, angry: 25, fearful: 15, disgusted: 20, surprised: 15, neutral: 60 } },
+  { id: "93", word: "so", category: "conjunctions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 10, disgusted: 10, surprised: 10, neutral: 65 } },
+  { id: "94", word: "because", category: "conjunctions", emotionRelevancy: { happy: 15, sad: 20, angry: 25, fearful: 15, disgusted: 15, surprised: 10, neutral: 60 } },
+  { id: "95", word: "if", category: "conjunctions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 25, disgusted: 10, surprised: 15, neutral: 60 } },
+  { id: "96", word: "then", category: "conjunctions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 60 } },
+  
+  // Question Words
+  { id: "97", word: "what", category: "questions", emotionRelevancy: { happy: 10, sad: 15, angry: 20, fearful: 20, disgusted: 20, surprised: 40, neutral: 60 } },
+  { id: "98", word: "why", category: "questions", emotionRelevancy: { happy: 10, sad: 20, angry: 30, fearful: 20, disgusted: 25, surprised: 30, neutral: 60 } },
+  { id: "99", word: "how", category: "questions", emotionRelevancy: { happy: 15, sad: 20, angry: 20, fearful: 25, disgusted: 20, surprised: 30, neutral: 60 } },
+  { id: "100", word: "who", category: "questions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 20, disgusted: 15, surprised: 30, neutral: 60 } },
+  { id: "101", word: "when", category: "questions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 20, disgusted: 10, surprised: 25, neutral: 60 } },
+  { id: "102", word: "where", category: "questions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 25, disgusted: 10, surprised: 25, neutral: 60 } },
+  { id: "103", word: "which", category: "questions", emotionRelevancy: { happy: 15, sad: 10, angry: 15, fearful: 15, disgusted: 10, surprised: 20, neutral: 60 } },
+  
+  // Common Adverbs
+  { id: "104", word: "here", category: "adverbs", emotionRelevancy: { happy: 20, sad: 10, angry: 10, fearful: 15, disgusted: 10, surprised: 20, neutral: 60 } },
+  { id: "105", word: "there", category: "adverbs", emotionRelevancy: { happy: 15, sad: 10, angry: 10, fearful: 15, disgusted: 10, surprised: 20, neutral: 60 } },
+  { id: "106", word: "now", category: "adverbs", emotionRelevancy: { happy: 20, sad: 15, angry: 25, fearful: 25, disgusted: 15, surprised: 20, neutral: 60 } },
+  { id: "107", word: "today", category: "adverbs", emotionRelevancy: { happy: 20, sad: 15, angry: 10, fearful: 10, disgusted: 10, surprised: 15, neutral: 60 } },
+  { id: "108", word: "yesterday", category: "adverbs", emotionRelevancy: { happy: 15, sad: 20, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "109", word: "tomorrow", category: "adverbs", emotionRelevancy: { happy: 25, sad: 15, angry: 10, fearful: 15, disgusted: 10, surprised: 15, neutral: 60 } },
+  { id: "110", word: "very", category: "adverbs", emotionRelevancy: { happy: 15, sad: 15, angry: 20, fearful: 15, disgusted: 15, surprised: 15, neutral: 60 } },
+  { id: "111", word: "really", category: "adverbs", emotionRelevancy: { happy: 20, sad: 15, angry: 20, fearful: 15, disgusted: 15, surprised: 20, neutral: 60 } },
+  { id: "112", word: "maybe", category: "adverbs", emotionRelevancy: { happy: 10, sad: 15, angry: 10, fearful: 20, disgusted: 10, surprised: 15, neutral: 60 } },
+  { id: "113", word: "not", category: "adverbs", emotionRelevancy: { happy: 5, sad: 20, angry: 30, fearful: 20, disgusted: 25, surprised: 15, neutral: 60 } },
+  
+  // Essential Verbs - To Be
+  { id: "114", word: "am", category: "verbs", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 65 } },
+  { id: "115", word: "is", category: "verbs", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 65 } },
+  { id: "116", word: "are", category: "verbs", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 65 } },
+  { id: "117", word: "was", category: "verbs", emotionRelevancy: { happy: 15, sad: 20, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 65 } },
+  { id: "118", word: "were", category: "verbs", emotionRelevancy: { happy: 15, sad: 20, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 65 } },
+  { id: "119", word: "be", category: "verbs", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 65 } },
+  { id: "120", word: "been", category: "verbs", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 65 } },
+  
+  // Essential Verbs - To Have
+  { id: "121", word: "have", category: "verbs", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "122", word: "has", category: "verbs", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "123", word: "had", category: "verbs", emotionRelevancy: { happy: 15, sad: 20, angry: 15, fearful: 15, disgusted: 15, surprised: 15, neutral: 65 } },
+  
+  // Essential Verbs - To Do
+  { id: "124", word: "do", category: "verbs", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "125", word: "does", category: "verbs", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "126", word: "did", category: "verbs", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  
+  // Modal Verbs
+  { id: "127", word: "can", category: "verbs", emotionRelevancy: { happy: 25, sad: 10, angry: 15, fearful: 15, disgusted: 10, surprised: 20, neutral: 65 } },
+  { id: "128", word: "could", category: "verbs", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 20, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "129", word: "will", category: "verbs", emotionRelevancy: { happy: 25, sad: 15, angry: 20, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "130", word: "would", category: "verbs", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 20, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "131", word: "should", category: "verbs", emotionRelevancy: { happy: 15, sad: 20, angry: 20, fearful: 20, disgusted: 15, surprised: 10, neutral: 65 } },
+  { id: "132", word: "must", category: "verbs", emotionRelevancy: { happy: 15, sad: 15, angry: 25, fearful: 20, disgusted: 15, surprised: 15, neutral: 60 } },
+  
+  // Common Prepositions
+  { id: "133", word: "in", category: "prepositions", emotionRelevancy: { happy: 15, sad: 10, angry: 10, fearful: 15, disgusted: 10, surprised: 10, neutral: 65 } },
+  { id: "134", word: "on", category: "prepositions", emotionRelevancy: { happy: 15, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 65 } },
+  { id: "135", word: "at", category: "prepositions", emotionRelevancy: { happy: 15, sad: 10, angry: 15, fearful: 15, disgusted: 10, surprised: 10, neutral: 65 } },
+  { id: "136", word: "to", category: "prepositions", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "137", word: "from", category: "prepositions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "138", word: "with", category: "prepositions", emotionRelevancy: { happy: 25, sad: 10, angry: 15, fearful: 10, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "139", word: "for", category: "prepositions", emotionRelevancy: { happy: 20, sad: 15, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 65 } },
+  { id: "140", word: "of", category: "prepositions", emotionRelevancy: { happy: 15, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 65 } },
+  { id: "141", word: "about", category: "prepositions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 20, disgusted: 15, surprised: 20, neutral: 65 } },
+  { id: "142", word: "by", category: "prepositions", emotionRelevancy: { happy: 15, sad: 10, angry: 10, fearful: 10, disgusted: 10, surprised: 10, neutral: 65 } },
+  { id: "143", word: "up", category: "prepositions", emotionRelevancy: { happy: 25, sad: 10, angry: 15, fearful: 10, disgusted: 10, surprised: 20, neutral: 60 } },
+  { id: "144", word: "down", category: "prepositions", emotionRelevancy: { happy: 10, sad: 25, angry: 15, fearful: 15, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "145", word: "out", category: "prepositions", emotionRelevancy: { happy: 20, sad: 15, angry: 20, fearful: 15, disgusted: 15, surprised: 15, neutral: 60 } },
+  { id: "146", word: "over", category: "prepositions", emotionRelevancy: { happy: 15, sad: 15, angry: 15, fearful: 10, disgusted: 10, surprised: 15, neutral: 60 } },
+  { id: "147", word: "under", category: "prepositions", emotionRelevancy: { happy: 10, sad: 15, angry: 10, fearful: 20, disgusted: 10, surprised: 10, neutral: 60 } },
+  { id: "148", word: "into", category: "prepositions", emotionRelevancy: { happy: 20, sad: 10, angry: 15, fearful: 15, disgusted: 10, surprised: 15, neutral: 60 } },
 ];
 
 export type EmotionType = "happy" | "sad" | "angry" | "fearful" | "disgusted" | "surprised" | "neutral";
