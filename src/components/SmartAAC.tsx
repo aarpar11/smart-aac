@@ -8,6 +8,7 @@ import * as LucideIcons from 'lucide-react';
 import { useEmotionDetection, DetectedEmotion } from '@/hooks/useEmotionDetection';
 import { aacWords, sortWordsByEmotion, EmotionType, AACWord } from '@/data/aacWords';
 import { SpeechToAAC } from './SpeechToAAC';
+import { getCategoryColor } from '@/data/categoryColors';
 
 export const SmartAAC = () => {
   const [isVideoActive, setIsVideoActive] = useState(false);
@@ -237,19 +238,21 @@ export const SmartAAC = () => {
                   const IconComponent = word.icon 
                     ? (LucideIcons as any)[word.icon] 
                     : null;
+                  
+                  const colorClass = getCategoryColor(word.category);
 
                   return (
                     <Button
                       key={word.id}
                       onClick={() => handleWordClick(word.word)}
                       variant="outline"
-                      className="h-auto py-4 px-2 text-sm hover:bg-primary/20 transition-colors"
+                      className={`h-auto py-4 px-2 text-sm transition-colors border-2 ${colorClass}`}
                     >
                       <div className="flex flex-col items-center gap-1.5">
                         {IconComponent && (
-                          <IconComponent className="w-8 h-8 text-primary" />
+                          <IconComponent className="w-8 h-8" />
                         )}
-                        <span className="font-medium text-center">{word.word}</span>
+                        <span className="font-medium text-center text-foreground">{word.word}</span>
                       </div>
                     </Button>
                   );
