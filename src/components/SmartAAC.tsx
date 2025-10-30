@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Camera, CameraOff, Volume2, Sparkles } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { useEmotionDetection, DetectedEmotion } from '@/hooks/useEmotionDetection';
 import { aacWords, sortWordsByEmotion, EmotionType, AACWord } from '@/data/aacWords';
 import { SpeechToAAC } from './SpeechToAAC';
@@ -231,19 +232,28 @@ export const SmartAAC = () => {
             </div>
             <ScrollArea className="h-[400px] pr-4">
               <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
-                {sortedWords.map((word) => (
-                  <Button
-                    key={word.id}
-                    onClick={() => handleWordClick(word.word)}
-                    variant="outline"
-                    className="h-auto py-4 text-sm hover:bg-primary/20 transition-colors"
-                  >
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="font-medium">{word.word}</span>
-                      <span className="text-xs text-muted-foreground">{word.category}</span>
-                    </div>
-                  </Button>
-                ))}
+                {sortedWords.map((word) => {
+                  // Get the Lucide icon component dynamically
+                  const IconComponent = word.icon 
+                    ? (LucideIcons as any)[word.icon] 
+                    : null;
+
+                  return (
+                    <Button
+                      key={word.id}
+                      onClick={() => handleWordClick(word.word)}
+                      variant="outline"
+                      className="h-auto py-4 px-2 text-sm hover:bg-primary/20 transition-colors"
+                    >
+                      <div className="flex flex-col items-center gap-1.5">
+                        {IconComponent && (
+                          <IconComponent className="w-8 h-8 text-primary" />
+                        )}
+                        <span className="font-medium text-center">{word.word}</span>
+                      </div>
+                    </Button>
+                  );
+                })}
               </div>
             </ScrollArea>
           </div>
