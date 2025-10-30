@@ -1,4 +1,5 @@
 import { SmartAAC as SmartAACComponent } from '@/components/SmartAAC';
+import logo from '@/assets/smart-aac-logo.jpg';
 
 const SmartAAC = () => {
   return (
@@ -6,9 +7,12 @@ const SmartAAC = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary">
-              Smart AAC Device
-            </h1>
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <img src={logo} alt="Smart AAC Logo" className="w-16 h-16 object-contain" />
+              <h1 className="text-4xl md:text-5xl font-bold text-primary">
+                Smart AAC Device
+              </h1>
+            </div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               An emotion-aware Augmentative and Alternative Communication device that helps non-verbal individuals 
               communicate more effectively by sorting words based on detected facial emotions.

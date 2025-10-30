@@ -7,14 +7,12 @@ import { Camera, CameraOff, Volume2, Sparkles } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { useEmotionDetection, DetectedEmotion } from '@/hooks/useEmotionDetection';
 import { aacWords, sortWordsByEmotion, EmotionType, AACWord } from '@/data/aacWords';
-import { SpeechToAAC } from './SpeechToAAC';
 import { getCategoryColor } from '@/data/categoryColors';
 
 export const SmartAAC = () => {
   const [isVideoActive, setIsVideoActive] = useState(false);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [sortedWords, setSortedWords] = useState<{ category: string; words: AACWord[] }[]>([]);
-  const [aiSuggestedWords, setAiSuggestedWords] = useState<string[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const { isLoading, emotion, error, startDetection, stopDetection } = useEmotionDetection();
@@ -57,36 +55,11 @@ export const SmartAAC = () => {
       const nonCritical = categoryWords.filter(word => !criticalWords.includes(word.word));
       categoryWords = [...critical, ...nonCritical];
       
-      // If we have AI suggestions, further prioritize matching words
-      if (aiSuggestedWords.length > 0) {
-        const aiMatched = categoryWords.filter(word => {
-          const wordLower = word.word.toLowerCase();
-          return aiSuggestedWords.some(suggestion => 
-            suggestion.toLowerCase() === wordLower || 
-            wordLower.includes(suggestion.toLowerCase()) ||
-            suggestion.toLowerCase().includes(wordLower)
-          );
-        });
-        const aiNotMatched = categoryWords.filter(word => {
-          const wordLower = word.word.toLowerCase();
-          return !aiSuggestedWords.some(suggestion => 
-            suggestion.toLowerCase() === wordLower || 
-            wordLower.includes(suggestion.toLowerCase()) ||
-            suggestion.toLowerCase().includes(wordLower)
-          );
-        });
-        categoryWords = [...aiMatched, ...aiNotMatched];
-      }
-      
       return { category, words: categoryWords };
     }).filter(cat => cat.words.length > 0);
     
     setSortedWords(categorizedWords as any);
-  }, [emotion, aiSuggestedWords]);
-
-  const handleAISuggestions = (words: string[]) => {
-    setAiSuggestedWords(words);
-  };
+  }, [emotion]);
 
   const handleToggleVideo = async () => {
     if (!isVideoActive && videoRef.current) {
@@ -139,9 +112,6 @@ export const SmartAAC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Speech to AAC Helper */}
-      <SpeechToAAC onSuggestionsReceived={handleAISuggestions} />
-
       <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -149,7 +119,7 @@ export const SmartAAC = () => {
             Smart AAC - Emotion-Aware Communication
           </CardTitle>
           <p className="text-sm text-muted-foreground">
-            Words sorted by emotion detection {aiSuggestedWords.length > 0 && '& AI suggestions'}
+            Words sorted by emotion detection
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -250,11 +220,6 @@ export const SmartAAC = () => {
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-semibold">Communication Words</h3>
               <div className="text-sm text-muted-foreground text-right">
-                {aiSuggestedWords.length > 0 && (
-                  <p className="text-primary font-semibold">
-                    AI-suggested words highlighted
-                  </p>
-                )}
                 {emotion && (
                   <p>
                     Sorted by: <span className="font-semibold capitalize">{emotion.emotion}</span>
@@ -262,8 +227,8 @@ export const SmartAAC = () => {
                 )}
               </div>
             </div>
-            <ScrollArea className="h-[500px]">
-              <div className="flex gap-3 pb-4">
+            <div className="w-full overflow-x-auto">
+              <div className="flex gap-3 pb-4 min-w-max">
                 {sortedWords.map(({ category, words }) => (
                   <div key={category} className="flex-shrink-0 w-[140px] space-y-2">
                     <h4 className="text-xs font-semibold uppercase text-muted-foreground text-center sticky top-0 bg-background py-2">
@@ -300,7 +265,7 @@ export const SmartAAC = () => {
                   </div>
                 ))}
               </div>
-            </ScrollArea>
+            </div>
           </div>
         </CardContent>
       </Card>
