@@ -13,44 +13,75 @@ import { getCategoryColor } from '@/data/categoryColors';
 export const SmartAAC = () => {
   const [isVideoActive, setIsVideoActive] = useState(false);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
-  const [sortedWords, setSortedWords] = useState(aacWords);
+  const [sortedWords, setSortedWords] = useState<{ category: string; words: AACWord[] }[]>([]);
   const [aiSuggestedWords, setAiSuggestedWords] = useState<string[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   const { isLoading, emotion, error, startDetection, stopDetection } = useEmotionDetection();
 
+  // Define critical words that should always appear at the top of their categories
+  const criticalWords = ['I', 'my', 'your', 'want', 'need', 'help', 'yes', 'no'];
+  
+  // Define category order following grammar structure (Subject-Verb-Object)
+  const categoryOrder = [
+    'pronouns',      // Subject
+    'verbs',         // Verb
+    'actions',       // Verb
+    'requests',      // Verb/Need
+    'objects',       // Object/Noun
+    'people',        // Object/Noun
+    'places',        // Object/Noun
+    'descriptors',   // Adjectives
+    'emotions',      // Emotional states
+    'adverbs',       // Modifiers
+    'prepositions',  // Position
+    'temporal',      // Time
+    'articles',      // Grammar
+    'conjunctions',  // Connectors
+    'questions',     // Questions
+    'responses',     // Social
+  ];
+
   useEffect(() => {
-    // Combine emotion-based sorting with AI suggestions
-    let sorted = aacWords;
+    // Group words by category
+    const categorizedWords = categoryOrder.map(category => {
+      let categoryWords = aacWords.filter(word => word.category === category);
+      
+      // Sort by emotion if available
+      if (emotion) {
+        categoryWords = sortWordsByEmotion(categoryWords, emotion.emotion as EmotionType);
+      }
+      
+      // Prioritize critical words within each category
+      const critical = categoryWords.filter(word => criticalWords.includes(word.word));
+      const nonCritical = categoryWords.filter(word => !criticalWords.includes(word.word));
+      categoryWords = [...critical, ...nonCritical];
+      
+      // If we have AI suggestions, further prioritize matching words
+      if (aiSuggestedWords.length > 0) {
+        const aiMatched = categoryWords.filter(word => {
+          const wordLower = word.word.toLowerCase();
+          return aiSuggestedWords.some(suggestion => 
+            suggestion.toLowerCase() === wordLower || 
+            wordLower.includes(suggestion.toLowerCase()) ||
+            suggestion.toLowerCase().includes(wordLower)
+          );
+        });
+        const aiNotMatched = categoryWords.filter(word => {
+          const wordLower = word.word.toLowerCase();
+          return !aiSuggestedWords.some(suggestion => 
+            suggestion.toLowerCase() === wordLower || 
+            wordLower.includes(suggestion.toLowerCase()) ||
+            suggestion.toLowerCase().includes(wordLower)
+          );
+        });
+        categoryWords = [...aiMatched, ...aiNotMatched];
+      }
+      
+      return { category, words: categoryWords };
+    }).filter(cat => cat.words.length > 0);
     
-    if (emotion) {
-      sorted = sortWordsByEmotion(aacWords, emotion.emotion as EmotionType);
-    }
-
-    // If we have AI suggestions, prioritize words that match or contain suggested words
-    if (aiSuggestedWords.length > 0) {
-      const prioritized: AACWord[] = [];
-      const remaining: AACWord[] = [];
-
-      sorted.forEach(word => {
-        const wordLower = word.word.toLowerCase();
-        const isMatch = aiSuggestedWords.some(suggestion => 
-          suggestion.toLowerCase() === wordLower || 
-          wordLower.includes(suggestion.toLowerCase()) ||
-          suggestion.toLowerCase().includes(wordLower)
-        );
-        
-        if (isMatch) {
-          prioritized.push(word);
-        } else {
-          remaining.push(word);
-        }
-      });
-
-      sorted = [...prioritized, ...remaining];
-    }
-
-    setSortedWords(sorted);
+    setSortedWords(categorizedWords as any);
   }, [emotion, aiSuggestedWords]);
 
   const handleAISuggestions = (words: string[]) => {
@@ -214,14 +245,14 @@ export const SmartAAC = () => {
             </div>
           </div>
 
-          {/* Word Grid */}
+          {/* Word Grid by Category */}
           <div>
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-semibold">Communication Words</h3>
               <div className="text-sm text-muted-foreground text-right">
                 {aiSuggestedWords.length > 0 && (
                   <p className="text-primary font-semibold">
-                    AI-suggested words shown first
+                    AI-suggested words highlighted
                   </p>
                 )}
                 {emotion && (
@@ -231,32 +262,43 @@ export const SmartAAC = () => {
                 )}
               </div>
             </div>
-            <ScrollArea className="h-[400px] pr-4">
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
-                {sortedWords.map((word) => {
-                  // Get the Lucide icon component dynamically
-                  const IconComponent = word.icon 
-                    ? (LucideIcons as any)[word.icon] 
-                    : null;
-                  
-                  const colorClass = getCategoryColor(word.category);
+            <ScrollArea className="h-[500px]">
+              <div className="flex gap-3 pb-4">
+                {sortedWords.map(({ category, words }) => (
+                  <div key={category} className="flex-shrink-0 w-[140px] space-y-2">
+                    <h4 className="text-xs font-semibold uppercase text-muted-foreground text-center sticky top-0 bg-background py-2">
+                      {category}
+                    </h4>
+                    <div className="space-y-2">
+                      {words.map((word) => {
+                        // Get the Lucide icon component dynamically
+                        const IconComponent = word.icon 
+                          ? (LucideIcons as any)[word.icon] 
+                          : null;
+                        
+                        const colorClass = getCategoryColor(word.category);
 
-                  return (
-                    <Button
-                      key={word.id}
-                      onClick={() => handleWordClick(word.word)}
-                      variant="outline"
-                      className={`h-auto py-4 px-2 text-sm transition-colors border-2 ${colorClass}`}
-                    >
-                      <div className="flex flex-col items-center gap-1.5">
-                        {IconComponent && (
-                          <IconComponent className="w-8 h-8" />
-                        )}
-                        <span className="font-medium text-center text-foreground">{word.word}</span>
-                      </div>
-                    </Button>
-                  );
-                })}
+                        return (
+                          <Button
+                            key={word.id}
+                            onClick={() => handleWordClick(word.word)}
+                            variant="outline"
+                            className={`w-full h-auto py-3 px-2 text-sm transition-colors border-2 ${colorClass}`}
+                          >
+                            <div className="flex flex-col items-center gap-1.5">
+                              {IconComponent && (
+                                <IconComponent className="w-7 h-7" />
+                              )}
+                              <span className="font-medium text-center text-foreground text-xs leading-tight">
+                                {word.word}
+                              </span>
+                            </div>
+                          </Button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             </ScrollArea>
           </div>
