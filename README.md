@@ -1,4 +1,4 @@
 # Smart AAC 2025
 
-The first version of Smart AAC for the Congressional App Challenge in 2025
+The demo version of Smart AAC in 2025 (MVP UI created w/ Lovable, app release coming Sep 1)
 
